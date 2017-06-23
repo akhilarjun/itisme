@@ -2,8 +2,12 @@ var listOfCommands, returnRandomOutput, loggedInUser;
 
 returnRandomOutput = function (arr) {
     'use strict';
-    var randomNum = Math.floor(Math.random() * (arr.length));
-    return arr[randomNum];
+    var randomNum = Math.floor(Math.random() * (arr.length)),
+        msg = arr[randomNum];
+    if (/{u}/.test(msg)) {
+        msg = msg.replace(/{u}/,loggedInUser);
+    }
+    return msg;
 };
 
 listOfCommands = {
@@ -22,14 +26,15 @@ listOfCommands = {
     },
     noCommandFound : {
         returnStatements : [
-            'Bad Command : ',
-            'Guess there is a typo, no command found like ',
-            'Hey, I am sorry. I don\'t know what that means : ',
-            'Sorry there is no command like '
+            'I cant make sense of what you said :o',
+            'Hey, I am sorry. I don\'t know what that means ',
+            'I am so embarassed! I have no clue what you said',
+            'Sorry, no clue',
+            'Can you come again?'
         ],
         execute : function (wrongCommand) {
             'use strict';
-            return returnRandomOutput(this.returnStatements) + wrongCommand + ' <br> Type \' <span style="color:white;font-style:italic;"> help </span> \' to access the list of  supported commands';
+            return returnRandomOutput(this.returnStatements);// + wrongCommand + ' <br> Type \' <span style="color:white;font-style:italic;"> help </span> \' to access the list of  supported commands';
         }
     },
     number : {
@@ -51,7 +56,10 @@ listOfCommands = {
             'I hope you aren\'t bored!',
 	        'Hey, you there ?',
 	        'You know, I might sleep off',
-	        'Hey, psst! you should type something now'
+	        'Hey, psst! you should type something now',
+            'Yo Boss, you there ?',
+            'It\'s awkwardly quite around here',
+            'Blah Blah Blah Blah! You better type or am gonna go Blah Blah :D'
 	    ],
 	    execute : function (wrongCommand) {
 	        'use strict';
@@ -70,7 +78,7 @@ listOfCommands = {
         }
     },
     myName : {
-        keyWords : ['name', 'ur name', 'your name', 'akhil', 'akhil arjun'],
+        keyWords : ['name', 'ur name', 'your name'],
         returnStatements : [
             'I am <span style="color:#fff;"> Akhil Arjun </span>',
             '<span style="color:#fff;"> Akhil Arjun </span>',
@@ -85,7 +93,35 @@ listOfCommands = {
         keyWords : ['how are you'],
         returnStatements : [
             'I am fine',
-            'Am Great'
+            'Am Great',
+            'I am a BOT, am perfect! What about you?',
+            'Exceptionally Good !',
+            'Am fine, Thank you.'
+        ],
+        execute : function () {
+            'use strict';
+            return returnRandomOutput(this.returnStatements);
+        }
+    },
+    thankyou : {
+        keyWords : ['thank you','thanks','thnx'],
+        returnStatements : [
+            'welcome',
+            'Anytime {u}',
+            'Cummon {u} no need to thank!'
+        ],
+        execute : function () {
+            'use strict';
+            return returnRandomOutput(this.returnStatements);
+        }
+    },
+    whatsup : {
+        keyWords : ['whatsup', 'wazzap', 'wazzup', 'what\'s up', 'whats up'],
+        returnStatements : [
+            'Whatsup {u}!',
+            'How have you been?',
+            'Whatsup! How are you?',
+            'Am cool! What about you?'
         ],
         execute : function () {
             'use strict';
@@ -109,7 +145,10 @@ listOfCommands = {
         keyWords : ['how is', 'how much', 'how are', 'how could', 'how can', 'how would', 'how to', 'how'],
         returnStatements : [
             'I am not sure',
-            'No idea'
+            'No idea',
+            'I don\'t think it is quantifiable',
+            'Boss! no clue',
+            'There is so much more to it than I know'
         ],
         execute : function () {
             'use strict';
@@ -117,7 +156,7 @@ listOfCommands = {
         }
     },
     questionsWithWhat : {
-        keyWords : ['what is', 'what are', 'what should', 'what would'],
+        keyWords : ['what is', 'what are', 'what should', 'what would', 'what *'],
         returnStatements : [
             'I am not quite aware of it',
             'I don\'t think I should answer that',
@@ -133,6 +172,20 @@ listOfCommands = {
         keyWords : ['where is', 'where are', 'where should', 'where would', 'where in'],
         returnStatements : [
             'You really think I would know that ? ',
+            'This is absurd! I don\'t know',
+            'I can\'t know that',
+            'I can\'t really know. Can you tell me ?'
+        ],
+        execute : function () {
+            'use strict';
+            return returnRandomOutput(this.returnStatements);
+        }
+    },
+    questionsWithWhy : {
+        keyWords : ['why is', 'why are', 'why should', 'why would', 'why in','why*'],
+        returnStatements : [
+            'You really think I would know that ? ',
+            'I can\'t know that',
             'This is absurd! I don\'t know',
             'I can\'t really know. Can you tell me ?'
         ],
@@ -166,8 +219,32 @@ listOfCommands = {
             return returnRandomOutput(this.returnStatements);
         }
     },
+    userWant : {
+        keyWords : ['i want'],
+        returnStatements : [
+            'You really want to?',
+            'Sure about that ?',
+            'Good for you, {u}'
+        ],
+        execute : function () {
+            'use strict';
+            return returnRandomOutput(this.returnStatements);
+        }
+    },
+    theyouword : {
+        keyWords : ['you are'],
+        returnStatements : [
+            'I don\'t think we should be talking about me',
+            'Do we really have to talk about me?',
+            'We are here to talk about you'
+        ],
+        execute : function () {
+            'use strict';
+            return returnRandomOutput(this.returnStatements);
+        }
+    },
     strongWords : {
-        keyWords : ['hate', 'death', 'love'],
+        keyWords : ['hate', 'death', 'love', 'life'],
         returnStatements : [
             ' ! that is a strong emotion there',
             ', really ?',
@@ -184,6 +261,26 @@ listOfCommands = {
             }
             theWord = theWord.charAt(0).toUpperCase() + theWord.slice(1);
             return theWord + returnRandomOutput(this.returnStatements);
+        }
+    },
+    decisiveWords : {
+        keyWords : ['good', 'bad', 'wrong', 'right'],
+        returnStatements : [
+            'How do you know it is ',
+            'I am not sure if we can conclude that anything is ',
+            'Tell me what is ',
+            'You cant be sure if anything is '
+        ],
+        execute : function (command) {
+            'use strict';
+            var theWord, i;
+            for (i = 0; i < this.returnStatements.length; i = i + 1) {
+                if (command.indexOf(this.keyWords[i]) > -1) {
+                    theWord = this.keyWords[i];
+                }
+            }
+            theWord = theWord.charAt(0).toUpperCase() + theWord.slice(1);
+            return returnRandomOutput(this.returnStatements) + theWord;
         }
     },
     appreciation : {
@@ -213,11 +310,11 @@ listOfCommands = {
         }
     },
     coffee : {
-        keyWords : ['coffee'],
+        keyWords : ['coffee', 'tea', 'beverage', 'drink', 'beer', 'wine'],
         returnStatements : [
             'I &hearts; coffee',
             '<div style="font-size:13px; color: orange;"> &nbsp; ) <br> &nbsp; ( <br> [_]} </div>',
-            'I like it filtered &#9749; '
+            'I like filtered coffee &#9749; '
         ],
         execute : function () {
             'use strict';
@@ -247,7 +344,8 @@ listOfCommands = {
         returnStatements : [
             'I like video games and music',
             'I like coffee &#9749; ',
-            'I am 5 foot 9 inch tall, if that helps'
+            'I am 5 foot 9 inch tall, if that helps :P',
+            'I like music, do you?'
         ],
         execute : function () {
             'use strict';
@@ -296,18 +394,6 @@ listOfCommands = {
             return returnRandomOutput(this.returnStatements);
         }
     },
-    definitives : {
-        keyWords : ['ok', 'okay', 'k', 'hmm', 'hm', 'hmmm', 'hmmmm'],
-        returnStatements : [
-            'Okay',
-            'Ok',
-            'Hmm'
-        ],
-        execute : function () {
-            'use strict';
-            return returnRandomOutput(this.returnStatements);
-        }
-    },
     definitives_positive : {
         keyWords : ['done', 'yeah', 'nice', 'cool', 'yes'],
         returnStatements : [
@@ -315,7 +401,7 @@ listOfCommands = {
             'Cool, that\'s awesome',
             'Nice',
             'Anything more I can help you with ?',
-            'Yeah',
+            'Yeah baby!',
             'Great!'
         ],
         execute : function () {
@@ -324,11 +410,15 @@ listOfCommands = {
         }
     },
     definitives_negative : {
-        keyWords : ['no', 'nope', 'never', 'naa', 'not'],
+        keyWords : ['no', 'nope', 'never', 'naa', 'not', 'dont', 'wont', 'cant'],
         returnStatements : [
             'Okay',
             'Sorry about that',
-            'Ooh'
+            'Ooh',
+            'Are you being negative just to be negative',
+            'Some one is being a pessimist!',
+            'I would say we can be little optimistic about that, dont you think?',
+            'That\'s a bit negative! Don\'t you think?'
         ],
         execute : function () {
             'use strict';
@@ -338,12 +428,24 @@ listOfCommands = {
     endOfConversation : {
         keyWords : ['bye', 'exit', 'esc', 'stop'],
         returnStatements : [
-            'Okay',
             'It was nice knowing you',
             'Till next time',
             'See you later, alligator!',
-            'Sayanora Buddy!',
-            'Sure.'
+            'Sayanora Buddy!'
+        ],
+        execute : function () {
+            'use strict';
+            return returnRandomOutput(this.returnStatements);
+        }
+    },
+    definitives : {
+        keyWords : ['ok', 'okay', 'k', 'hmm', 'hm', 'hmm*'],
+        returnStatements : [
+            'Okay',
+            'Ok',
+            'Hmm',
+            'So what next?',
+            'Anything more i can help you with?'
         ],
         execute : function () {
             'use strict';
@@ -351,13 +453,13 @@ listOfCommands = {
         }
     },
     offensive : {
-        keyWords : ['fuck', 'shit', 'get lost', 'wtf', 'asshole', 'bitch'],
+        keyWords : ['fuck', 'shit', 'get lost', 'wtf', 'asshole', 'bitch', 'stupid', 'dumb', 'nonsense'],
         returnStatements : [
             'That is rude !',
             'Hey, be cool !',
             'You don\'t want me on your bad side',
-            'That is so mean of you to say',
-            'That is a bit harsh of you!',
+            'That is so mean to say',
+            'That is a bit harsh!',
             'You talk like that to a Bot ? LOL real mature!',
             'Calm down buddy'
         ],
