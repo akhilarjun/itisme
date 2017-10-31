@@ -327,7 +327,7 @@ listOfCommands = {
             'I am a front end <span style="color:#fff;"> UI developer </span>, with crazy love for coffee',
             ' &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;   \\|||/ <br>'+
             ' &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;  &nbsp;(o &nbsp; o ) <br>'+
-            ' |~~~~oo0~~(_)~~~~~~~| <br> |  &nbsp; &nbsp; I am a front end &nbsp; &nbsp; &nbsp; | <br>'+
+            ' |~~~~oo0~~~~~~~~~~~~| <br> |  &nbsp; &nbsp; I am a front end &nbsp; &nbsp; &nbsp; | <br>'+
             ' |  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; developer.  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | <br>'+
             ' .~~~~~~~~~~~~~0oo~~~. <br>'+
             ' &nbsp;  &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;   |__| &nbsp;  |__| <br>'+
